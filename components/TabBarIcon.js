@@ -3,7 +3,7 @@ import propTypes from "prop-types";
 import { Ionicons } from "@expo/vector-icons";
 import { ACTIVE_COLOR, INACTIVE_COLOR } from "../constants/Colors";
 
-//focused = true / false  --> 그에 따라 색상 변경
+//focused = true / false  --> 현재 선택한 네비 . 그에 따라 색상 변경
 const TabBarIcon = ({ name, focused }) => (
   // expo의 icon 참조
   <Ionicons
