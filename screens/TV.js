@@ -1,3 +1,3 @@
 import React from "react";
 import { Text } from "react-native";
-export default () => <Text>Tv</Text>;
+export default () => <Text>TV</Text>;

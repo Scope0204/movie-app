@@ -1,8 +1,9 @@
 import React from "react";
-import { AppLoading, Asset } from "expo";
+import { AppLoading } from "expo";
+import { StatusBar } from "react-native";
 import * as Font from "expo-font"; // font 는 더이상 expo 라이브러리가아님
 import { Ionicons } from "@expo/vector-icons"; // 다양한 아이콘 즐비
-import { StyleSheet, Text, View } from "react-native";
+import MainNavigation from "./navigation/MainNavigation";
 
 export default class App extends React.Component {
   state = {
@@ -26,9 +27,10 @@ export default class App extends React.Component {
     const { loaded } = this.state;
     if (loaded) {
       return (
-        <View style={styles.container}>
-          <Text>sdsd</Text>
-        </View>
+        <>
+          <StatusBar barStyle="light-content" />
+          <MainNavigation />
+        </>
       );
     } else {
       return (
@@ -41,12 +43,3 @@ export default class App extends React.Component {
     }
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
