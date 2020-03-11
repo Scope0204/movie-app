@@ -3,45 +3,48 @@ import TVPresenter from "./TVPresenter";
 import { tv } from "../../api";
 
 export default class extends React.Component {
+  //초기에 요소 잘못 불러와서 수정함
   state = {
     loading: true,
     popular: null,
-    topRated: null,
+    airingThisWeek: null,
     airingToday: null
   };
+
   async componentDidMount() {
-    let popular, topRated, airingToday, error;
+    let popular, airingThisWeek, airingToday, error;
     try {
       ({
         data: { results: popular }
       } = await tv.getPopular());
       ({
-        data: { results: topRated }
-      } = await tv.getTopRated());
+        data: { results: airingThisWeek }
+      } = await tv.getAiringThisWeek());
       ({
         data: { results: airingToday }
-      } = await tv.getAiringTodat());
-    } catch {
+      } = await tv.getAiringToday());
+    } catch (error) {
+      console.log(error);
       error = "Can't get TV";
     } finally {
       this.setState({
         loading: false,
         error,
         popular,
-        topRated,
+        airingThisWeek,
         airingToday
       });
     }
   }
+
   render() {
-    const { loading, popular, topRated, airingToday } = this.state;
-    console.log(this.state);
+    const { loading, popular, airingThisWeek, airingToday } = this.state;
     return (
       <TVPresenter
         loading={loading}
-        popular={popular}
-        topRated={topRated}
         airingToday={airingToday}
+        airingThisWeek={airingThisWeek}
+        popular={popular}
       />
     );
   }

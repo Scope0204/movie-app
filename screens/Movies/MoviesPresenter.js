@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import Loader from "../../components/Loader";
 import styled from "styled-components";
 import MovieSlider from "../../components/MovieSlider";
+import Section from "../../components/Section";
+import MovieItem from "../../components/MovieItem";
 
 // ScrollView ? 유저가 스크롤할 수 있는 뷰. 크기가 크다고해서 뷰가 자동적으로 스크롤을 만들어 주는게 아님
 const Container = styled.ScrollView`
@@ -16,7 +18,22 @@ const MoviesPresenter = ({ loading, upcoming, popular, nowPlaying }) =>
     <Loader />
   ) : (
     <Container>
-      <MovieSlider movies={nowPlaying} />
+      {nowPlaying ? <MovieSlider movies={nowPlaying} /> : null}
+      {upcoming ? (
+        <Section title="Upcoming Movies">
+          {upcoming
+            .filter(movie => movie.poster_path !== null)
+            .map(movie => (
+              <MovieItem
+                key={movie.id}
+                id={movie.id}
+                posterPhoto={movie.poster_path}
+                title={movie.title}
+                voteAvg={movie.vote_average}
+              />
+            ))}
+        </Section>
+      ) : null}
     </Container>
   );
 
