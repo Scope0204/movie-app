@@ -21,14 +21,20 @@ const ScrollView = styled.ScrollView`
 `;
 
 // MoviePresenter가 children을 렌더링 하게끔 책임을 줌
-const Section = ({ title, children }) => (
+const Section = ({ title, children, horizontal = true }) => (
   <Container>
     <Title>{title}</Title>
-    <ScrollView horizontal>{children}</ScrollView>
+    <ScrollView horizontal={horizontal}>{children}</ScrollView>
   </Container>
 );
 
 Section.proptypes = {
+  //https://github.com/yannickcr/eslint-plugin-react/issues/7 : children props 체크
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]),
+  horizontal: PropTypes.bool,
   title: PropTypes.string.isRequired
 };
 

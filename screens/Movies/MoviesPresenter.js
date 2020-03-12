@@ -13,6 +13,13 @@ const Container = styled.ScrollView`
   background-color: black;
 `;
 
+const TItle = styled.Text`
+  color: white;
+  font-weight: 600;
+  padding-left: 20px;
+  margin-bottom: 10px;
+`;
+
 const MoviesPresenter = ({ loading, upcoming, popular, nowPlaying }) =>
   loading ? (
     <Loader />
@@ -29,6 +36,23 @@ const MoviesPresenter = ({ loading, upcoming, popular, nowPlaying }) =>
                 id={movie.id}
                 posterPhoto={movie.poster_path}
                 title={movie.title}
+                voteAvg={movie.vote_average}
+              />
+            ))}
+        </Section>
+      ) : null}
+      {popular ? (
+        <Section horizontal={false} title="Popular">
+          {upcoming
+            .filter(movie => movie.poster_path !== null)
+            .map(movie => (
+              <MovieItem
+                horizontal={true}
+                key={movie.id}
+                id={movie.id}
+                posterPhoto={movie.poster_path}
+                title={movie.title}
+                overview={movie.overview}
                 voteAvg={movie.vote_average}
               />
             ))}
