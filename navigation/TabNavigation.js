@@ -54,6 +54,8 @@ const TabNavigation = createBottomTabNavigator(
     //Search: SearchScreen --> 이런식으로 해당 라우터의 라벨을 지정할수도 있다
   },
   {
+    //실행시 Search 스크린을 먼저 호출
+    initialRouteName: "Search",
     tabBarOptions: {
       showLabel: false, // 라벨대신 icon을 보여줌
       style: {
