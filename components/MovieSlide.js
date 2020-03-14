@@ -6,7 +6,9 @@ import Layout from "../constants/Layouts";
 import MoviePoster from "./MoviePoster";
 import { TINT_COLOR, GREY_COLOR } from "../constants/Colors";
 import MovieRating from "./MovieRating";
-import { Systrace } from "react-native";
+
+import { withNavigation } from "react-navigation";
+
 const Container = styled.View`
   flex: 1;
   position: relative;
@@ -73,11 +75,13 @@ const BtnText = styled.Text`
 //만약 버튼을 만들시 이들을 다 포함하는 버튼용 컴포넌트를 만드는것을 추천 (여기선 하나만 할꺼)
 
 const MovieSlide = ({
+  id,
   posterPhoto,
   backgroundPhoto,
   title,
   voteAvg,
-  overview
+  overview,
+  navigation
 }) => (
   <Container>
     <BgImage source={{ uri: makePhotoUrl(backgroundPhoto) }} />
@@ -97,7 +101,22 @@ const MovieSlide = ({
               : overview}
           </Overview>
         ) : null}
-        <BtnContainer>
+        <BtnContainer
+          onPress={() =>
+            navigation.navigate({
+              routeName: "Detail",
+              params: {
+                isMovie: true,
+                id,
+                posterPhoto,
+                backgroundPhoto,
+                title,
+                voteAvg,
+                overview
+              }
+            })
+          }
+        >
           <BtnText>More Details</BtnText>
         </BtnContainer>
       </Column>
@@ -114,4 +133,4 @@ MovieSlide.propTypes = {
   overView: PropTypes.string.isRequired
 };
 
-export default MovieSlide;
+export default withNavigation(MovieSlide);

@@ -6,6 +6,9 @@ import MoviePoster from "./MoviePoster";
 import MovieRating from "./MovieRating";
 import { GREY_COLOR } from "../constants/Colors";
 
+import { TouchableWithoutFeedback } from "react-native"; // 터치에 반응하지만 아무피드백 x (여러 touchable이 있음)
+import { withNavigation } from "react-navigation"; // 어디에 있건 필요한 navigation prop을 줌
+
 const Container = styled.View`
   align-items: center;
   margin-right: 20px;
@@ -41,30 +44,52 @@ const MovieItem = ({
   title,
   voteAvg,
   horizontal = false,
-  overview
-}) =>
-  horizontal ? (
-    <HContainer>
-      <MoviePoster path={posterPhoto} />
-      <Column>
-        <Title big={true}>{title}</Title>
+  overview,
+  isMovie = true,
+  navigation, //export default withNavigation(MovieItem) 에 의해 자동적으로 가지게 됨
+
+  backgroundPhoto // movieSlide에 있는 param , DetailContainer는 MovieItem , MovieSlide 둘 다 접근가능하기 때문에 합친 params 를 전달해줘야한다.
+}) => (
+  <TouchableWithoutFeedback
+    onPress={() =>
+      navigation.navigate({
+        routeName: "Detail",
+        params: {
+          isMovie,
+          id,
+          posterPhoto,
+          title,
+          voteAvg,
+          overview,
+          backgroundPhoto: null
+        }
+      })
+    }
+  >
+    {horizontal ? (
+      <HContainer>
+        <MoviePoster path={posterPhoto} />
+        <Column>
+          <Title big={true}>{title}</Title>
+          <MovieRating votes={voteAvg} />
+          <Overview>
+            {overview.length > 150
+              ? `${overview.substring(0, 147)}...`
+              : overview}
+          </Overview>
+        </Column>
+      </HContainer>
+    ) : (
+      <Container>
+        <MoviePoster path={posterPhoto} />
+        <Title>
+          {title.length > 15 ? `${title.substring(0, 12)}...` : title}
+        </Title>
         <MovieRating votes={voteAvg} />
-        <Overview>
-          {overview.length > 150
-            ? `${overview.substring(0, 147)}...`
-            : overview}
-        </Overview>
-      </Column>
-    </HContainer>
-  ) : (
-    <Container>
-      <MoviePoster path={posterPhoto} />
-      <Title>
-        {title.length > 15 ? `${title.substring(0, 12)}...` : title}
-      </Title>
-      <MovieRating votes={voteAvg} />
-    </Container>
-  );
+      </Container>
+    )}
+  </TouchableWithoutFeedback>
+);
 
 MovieItem.propTypes = {
   id: PropTypes.number.isRequired,
@@ -72,7 +97,8 @@ MovieItem.propTypes = {
   title: PropTypes.string.isRequired,
   voteAvg: PropTypes.number.isRequired,
   horizontal: PropTypes.bool,
-  overview: PropTypes.string.isRequired
+  overview: PropTypes.string.isRequired,
+  isMovie: PropTypes.bool
 };
 
-export default MovieItem;
+export default withNavigation(MovieItem);
